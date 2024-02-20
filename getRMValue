@@ -1,0 +1,41 @@
+const pt = require('puppeteer');
+const { access } = require('./api.js');
+
+async function getRMValue(priceLink) {
+
+    if (!access) {
+        console.log('Please check your bill.')
+        return;
+    }
+
+    const browser = await pt.launch(
+        {
+            headless: false,
+            defaultViewport: null,
+            args: ['--start-maximized'],
+        }
+    );
+
+    // Create a new page
+    const page = await browser.newPage();
+
+    // Navigate to the URL
+    await page.goto(priceLink);
+
+    // Wait for the span element to be present
+    await page.waitForSelector('.css-pixzyi span');
+
+    // Extract the text content of the span element
+    const rmValue = await page.$eval('.css-pixzyi span', (span) => span.textContent);
+
+    console.log('\n\n')
+
+    await page.waitForTimeout(1000);
+
+    await browser.close();
+
+    return rmValue;
+}
+
+
+module.exports = { getRMValue };
