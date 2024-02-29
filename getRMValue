@@ -28,10 +28,6 @@ async function getRMValue(priceLink) {
     // Extract the text content of the span element
     const rmValue = await page.$eval('.css-pixzyi span', (span) => span.textContent);
 
-    console.log('\n\n')
-
-    await page.waitForTimeout(1000);
-
     await browser.close();
 
     return rmValue;
