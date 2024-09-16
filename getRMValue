@@ -1,5 +1,6 @@
 const pt = require('puppeteer');
 const { access } = require('./api.js');
+const { logMessage } = require('./logging'); // Import the logMessage function
 
 async function getRMValue(priceLink) {
 
@@ -27,6 +28,8 @@ async function getRMValue(priceLink) {
 
     // Extract the text content of the span element
     const rmValue = await page.$eval('.css-pixzyi span', (span) => span.textContent);
+
+    logMessage(`subfile.js - got price ${rmValue}.`);
 
     await browser.close();
 
